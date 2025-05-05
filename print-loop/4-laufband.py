@@ -1,12 +1,12 @@
+# Dateiname: 4-laufband.py
+
 import random
 import string
 import tkinter as tk
 
-# Zeichenmenge definieren
+# Zeichenmenge und Starttext definieren
 zeichen = string.ascii_letters + string.digits + string.punctuation +"                                  "
-
-# Starttext erzeugen
-text = ''.join(random.choice(zeichen) for _ in range(83))
+zeile = ''.join(random.choice(zeichen) for _ in range(83))
 
 # GUI einrichten
 fenster = tk.Tk()
@@ -14,16 +14,23 @@ fenster.title("Zufallszeichen Laufband")
 fenster.configure(bg="black")
 FPS = 10
 
-ausgabe = tk.Label(fenster, text=text, font=("Courier", 14), fg="lime", bg="black")
+ausgabe = tk.Label(fenster, text=zeile, font=("Courier", 14), fg="lime", bg="black")
 ausgabe.pack(padx=20, pady=20)
 
 def update():
-    global text
-    # Neuen Buchstaben hinzufügen und den ersten Buchstaben entfernen
-    neuer_buchstabe = random.choice(zeichen)
-    text = text[1:] + neuer_buchstabe
-    ausgabe.config(text=text)
+    global zeile
+    neuer_buchstabe = random.choice(zeichen) # Zufallszeichen
+    zeile = zeile[1:] + neuer_buchstabe      # Buchstabenmagie (1.Zeichen weg, am Ende eins dazu)
+    ausgabe.config(text=zeile)               # Dem Ausgabe-Ding wird unsere zeile übergeben
     fenster.after(int(1000 / FPS), update)
+    # fenster.after() definiert wann die Funktion namens "update" wieder aufgerufen werden soll.
 
-update()
-fenster.mainloop()
+# -------------------------------
+# Hier erst startet das Programm!
+# Zuvor wurde nur definiert.
+# -------------------------------
+
+update()           # Startet die Funktion update() einmal
+fenster.mainloop() # Startet das tkinter Fenster
+# Dem tkinter Fenster wurde mit fenster.after(zeit, update) erklärt,
+# dass es nach einer gewissen Zeit die Funktion "update" wieder ausführen soll.
